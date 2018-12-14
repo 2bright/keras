@@ -59,10 +59,12 @@ RUN conda install -y python=${python_version} && \
       pyyaml \
       scikit-learn \
       six \
-      theano && \
-    git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
-    pip install git+git://github.com/keras-team/keras.git && \
-    conda clean -yt
+      theano
+
+COPY keras_src /src
+RUN pip install -e /src[tests]
+RUN pip install /src
+RUN conda clean -yt
 
 ADD theanorc /home/keras/.theanorc
 

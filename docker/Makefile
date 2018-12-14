@@ -11,8 +11,11 @@ CUDA_VERSION?=9.0
 CUDNN_VERSION?=7
 TEST=tests/
 SRC?=$(shell dirname `pwd`)
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENT_DIR := $(dir $(MKFILE_PATH))
 
 build:
+	if [ ! -d "$(CURRENT_DIR)/keras_src" ]; then git clone $(CURRENT_DIR)/../.git keras_src; fi
 	docker build -t keras --build-arg python_version=$(PYTHON_VERSION) --build-arg cuda_version=$(CUDA_VERSION) --build-arg cudnn_version=$(CUDNN_VERSION) -f $(DOCKER_FILE) .
 
 bash: build
