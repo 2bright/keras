@@ -37,6 +37,8 @@ USER $NB_USER
 
 ARG python_version=3.6
 
+COPY pip.conf /home/$NB_USER/.pip/pip.conf
+
 RUN conda install -y python=${python_version} && \
     pip install --upgrade pip && \
     pip install \
